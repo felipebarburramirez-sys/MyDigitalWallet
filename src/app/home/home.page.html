@@ -2,6 +2,12 @@
   <ion-toolbar color="primary">
     <ion-title>MyDigitalWallet</ion-title>
     <ion-buttons slot="end">
+      <ion-button *ngIf="biometricAvailable" (click)="toggleBiometric()">
+        <ion-icon
+          slot="icon-only"
+          [name]="biometricEnabled ? 'finger-print' : 'finger-print-outline'">
+        </ion-icon>
+      </ion-button>
       <ion-button (click)="logout()">
         <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
       </ion-button>

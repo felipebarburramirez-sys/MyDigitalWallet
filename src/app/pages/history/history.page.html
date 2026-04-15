@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Historial</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="clearFilters()">
+        <ion-icon name="refresh-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="summary">
+    <small>Total del periodo</small>
+    <h2>${{ (totalSpent$ | async) | number:'1.0-0' }}</h2>
+  </div>
+
+  <ion-list lines="none" class="filters">
+    <ion-item>
+      <ion-select
+        label="Tarjeta"
+        labelPlacement="stacked"
+        placeholder="Todas"
+        (ionChange)="onCardChange($any($event))">
+        <ion-select-option value="">Todas</ion-select-option>
+        <ion-select-option *ngFor="let c of cards$ | async" [value]="c.id">
+          {{ c.brand | uppercase }} •••• {{ c.last4 }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        type="date"
+        label="Fecha"
+        labelPlacement="stacked"
+        (ionChange)="onDateChange($any($event))">
+      </ion-input>
+    </ion-item>
+  </ion-list>
+
+  <app-transaction-list
+    [transactions]="(filtered$ | async) ?? []"
+    (longPress)="openEmojiPicker($event)">
+  </app-transaction-list>
+</ion-content>
+
+<ion-modal
+  [isOpen]="!!selectedEmojiTx"
+  (didDismiss)="closeEmojiPicker()"
+  [initialBreakpoint]="0.4"
+  [breakpoints]="[0, 0.4]">
+  <ng-template>
+    <div class="emoji-sheet">
+      <h3>Reacciona al gasto</h3>
+      <div class="emoji-grid">
+        <button
+          *ngFor="let e of quickEmojis"
+          class="emoji-btn"
+          (click)="pickEmoji(e)">
+          {{ e }}
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</ion-modal>

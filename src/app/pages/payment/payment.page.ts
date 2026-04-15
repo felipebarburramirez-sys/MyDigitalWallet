@@ -8,6 +8,8 @@ import { PaymentService } from '../../core/services/payment.service';
 import { ToastService } from '../../core/services/toast.service';
 import { LoadingService } from '../../core/services/loading.service';
 import { DialogService } from '../../core/services/dialog.service';
+import { BiometricService } from '../../core/services/biometric.service';
+import { AuthService } from '../../core/services/auth.service';
 import { Card } from '../../core/models/card.model';
 
 @Component({
@@ -23,6 +25,8 @@ export class PaymentPage implements OnInit {
   private toast = inject(ToastService);
   private loading = inject(LoadingService);
   private dialog = inject(DialogService);
+  private biometric = inject(BiometricService);
+  private auth = inject(AuthService);
   private router = inject(Router);
 
   cards$: Observable<Card[]> = this.cardService.cards$();
@@ -69,6 +73,18 @@ export class PaymentPage implements OnInit {
       okText: 'Pagar',
     });
     if (!ok) return;
+
+    const user = this.auth.currentUser;
+    if (user) {
+      const profile = await this.auth.getProfile(user.uid);
+      if (profile?.biometricEnabled) {
+        const verified = await this.biometric.verify('Autoriza tu pago');
+        if (!verified) {
+          await this.toast.error('Pago no autorizado');
+          return;
+        }
+      }
+    }
 
     try {
       await this.loading.wrap(

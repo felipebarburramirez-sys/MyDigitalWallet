@@ -1,0 +1,31 @@
+<div class="tx-list" *ngIf="transactions.length > 0; else empty">
+  <div
+    class="tx-item"
+    *ngFor="let tx of transactions; trackBy: trackById"
+    (mousedown)="onPressStart(tx)"
+    (mouseup)="onPressEnd()"
+    (mouseleave)="onPressEnd()"
+    (touchstart)="onPressStart(tx)"
+    (touchend)="onPressEnd()"
+    (touchcancel)="onPressEnd()">
+    <div class="tx-icon">
+      <span *ngIf="tx.emoji; else defaultIcon">{{ tx.emoji }}</span>
+      <ng-template #defaultIcon>
+        <ion-icon name="storefront-outline"></ion-icon>
+      </ng-template>
+    </div>
+    <div class="tx-body">
+      <p class="merchant">{{ tx.merchant }}</p>
+      <small>•••• {{ tx.cardLast4 }} · {{ tx.date | date:'short' }}</small>
+    </div>
+    <div class="tx-amount">
+      -${{ tx.amount | number:'1.0-0' }}
+    </div>
+  </div>
+</div>
+<ng-template #empty>
+  <div class="tx-empty">
+    <ion-icon name="receipt-outline"></ion-icon>
+    <p>Sin transacciones</p>
+  </div>
+</ng-template>

@@ -29,6 +29,17 @@
       <span *ngIf="!loading">Ingresar</span>
     </ion-button>
 
+    <ion-button
+      *ngIf="biometricReady"
+      expand="block"
+      fill="outline"
+      type="button"
+      (click)="loginWithBiometric()"
+      [disabled]="loading">
+      <ion-icon name="finger-print" slot="start"></ion-icon>
+      Ingresar con biometría
+    </ion-button>
+
     <ion-button expand="block" fill="clear" type="button" (click)="goToRegister()">
       Crear una cuenta
     </ion-button>

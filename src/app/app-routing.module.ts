@@ -32,6 +32,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/payment/payment.module').then((m) => m.PaymentPageModule),
   },
+  {
+    path: 'history',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./pages/history/history.module').then((m) => m.HistoryPageModule),
+  },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 ];
 
