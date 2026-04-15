@@ -10,6 +10,7 @@ import { LoadingService } from '../../core/services/loading.service';
 import { DialogService } from '../../core/services/dialog.service';
 import { BiometricService } from '../../core/services/biometric.service';
 import { AuthService } from '../../core/services/auth.service';
+import { NotificationService } from '../../core/services/notification.service';
 import { Card } from '../../core/models/card.model';
 
 @Component({
@@ -27,6 +28,7 @@ export class PaymentPage implements OnInit {
   private dialog = inject(DialogService);
   private biometric = inject(BiometricService);
   private auth = inject(AuthService);
+  private notifications = inject(NotificationService);
   private router = inject(Router);
 
   cards$: Observable<Card[]> = this.cardService.cards$();
@@ -93,6 +95,9 @@ export class PaymentPage implements OnInit {
       );
       Haptics.notification({ type: NotificationType.Success }).catch(() => {});
       await this.toast.success(`Pago exitoso a ${merchant}`);
+      this.notifications
+        .sendPaymentSuccess(merchant, amount)
+        .catch((e) => console.error('[Push] send', e));
       await this.router.navigateByUrl('/home', { replaceUrl: true });
     } catch (e: unknown) {
       Haptics.notification({ type: NotificationType.Error }).catch(() => {});

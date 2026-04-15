@@ -4,10 +4,21 @@ import { IonicModule } from '@ionic/angular';
 
 import { CardComponent } from './components/card/card.component';
 import { TransactionListComponent } from './components/transaction-list/transaction-list.component';
+import { BalanceDisplayComponent } from './components/balance-display/balance-display.component';
+import { QuickActionsComponent } from './components/quick-actions/quick-actions.component';
+import { SkeletonLoadingComponent } from './components/skeleton-loading/skeleton-loading.component';
+
+const COMPONENTS = [
+  CardComponent,
+  TransactionListComponent,
+  BalanceDisplayComponent,
+  QuickActionsComponent,
+  SkeletonLoadingComponent,
+];
 
 @NgModule({
-  declarations: [CardComponent, TransactionListComponent],
+  declarations: COMPONENTS,
   imports: [CommonModule, IonicModule],
-  exports: [CardComponent, TransactionListComponent],
+  exports: COMPONENTS,
 })
 export class SharedModule {}

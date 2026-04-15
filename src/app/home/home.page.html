@@ -16,49 +16,23 @@
 </ion-header>
 
 <ion-content>
-  <div class="hero ion-padding">
-    <p class="greeting">Hola,</p>
-    <h2 class="name">{{ displayName$ | async }}</h2>
+  <app-balance-display
+    [displayName]="displayName$ | async"
+    [balance]="totalBalance$ | async"
+    [show]="showBalance"
+    (toggle)="toggleBalance()">
+  </app-balance-display>
 
-    <div class="balance-box">
-      <div>
-        <small>Balance total</small>
-        <h1>
-          <ng-container *ngIf="showBalance; else hidden">
-            ${{ (totalBalance$ | async) | number:'1.0-0' }}
-          </ng-container>
-          <ng-template #hidden>••••••</ng-template>
-        </h1>
-      </div>
-      <ion-button fill="clear" color="light" (click)="toggleBalance()">
-        <ion-icon
-          slot="icon-only"
-          [name]="showBalance ? 'eye-off-outline' : 'eye-outline'">
-        </ion-icon>
-      </ion-button>
-    </div>
-  </div>
-
-  <div class="quick-actions">
-    <button class="qa" (click)="goAddCard()">
-      <ion-icon name="add-circle-outline"></ion-icon>
-      <span>Agregar</span>
-    </button>
-    <button class="qa" (click)="goPay()">
-      <ion-icon name="card-outline"></ion-icon>
-      <span>Pagar</span>
-    </button>
-    <button class="qa" (click)="goHistory()">
-      <ion-icon name="time-outline"></ion-icon>
-      <span>Historial</span>
-    </button>
-  </div>
+  <app-quick-actions
+    [actions]="quickActions"
+    (actionClick)="onQuickAction($event)">
+  </app-quick-actions>
 
   <div class="section-title ion-padding-horizontal">
     <h3>Mis tarjetas</h3>
   </div>
 
-  <ng-container *ngIf="cards$ | async as cards">
+  <ng-container *ngIf="cards$ | async as cards; else loadingTpl">
     <div *ngIf="cards.length === 0" class="empty">
       <ion-icon name="card-outline"></ion-icon>
       <p>Aún no tienes tarjetas</p>
@@ -71,4 +45,8 @@
       </div>
     </div>
   </ng-container>
+
+  <ng-template #loadingTpl>
+    <app-skeleton-loading variant="card" [count]="2"></app-skeleton-loading>
+  </ng-template>
 </ion-content>

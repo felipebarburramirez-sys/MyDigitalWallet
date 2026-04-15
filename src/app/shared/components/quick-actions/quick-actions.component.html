@@ -1,0 +1,9 @@
+<div class="quick-actions">
+  <button
+    *ngFor="let a of actions; trackBy: trackByKey"
+    class="qa"
+    (click)="actionClick.emit(a.key)">
+    <ion-icon [name]="a.icon"></ion-icon>
+    <span>{{ a.label }}</span>
+  </button>
+</div>

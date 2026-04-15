@@ -10,4 +10,5 @@ export interface UserProfile {
   email: string;
   createdAt: number;
   biometricEnabled?: boolean;
+  fcmToken?: string;
 }

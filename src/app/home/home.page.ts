@@ -8,7 +8,9 @@ import { CardService } from '../core/services/card.service';
 import { BiometricService } from '../core/services/biometric.service';
 import { FirestoreService } from '../core/services/firestore.service';
 import { ToastService } from '../core/services/toast.service';
+import { NotificationService } from '../core/services/notification.service';
 import { Card } from '../core/models/card.model';
+import { QuickAction } from '../shared/components/quick-actions/quick-actions.component';
 
 @Component({
   selector: 'app-home',
@@ -25,10 +27,16 @@ export class HomePage implements OnInit {
   private biometric = inject(BiometricService);
   private firestoreSvc = inject(FirestoreService);
   private toastSvc = inject(ToastService);
+  private notifications = inject(NotificationService);
 
   showBalance = true;
   biometricAvailable = false;
   biometricEnabled = false;
+  quickActions: QuickAction[] = [
+    { key: 'add', label: 'Agregar', icon: 'add-circle-outline' },
+    { key: 'pay', label: 'Pagar', icon: 'card-outline' },
+    { key: 'history', label: 'Historial', icon: 'time-outline' },
+  ];
   cards$: Observable<Card[]> = this.cardService.cards$();
   totalBalance$: Observable<number> = this.cards$.pipe(
     map((cards) => cards.reduce((acc, c) => acc + (c.balance || 0), 0))
@@ -44,6 +52,7 @@ export class HomePage implements OnInit {
       const profile = await this.auth.getProfile(user.uid);
       this.biometricEnabled = !!profile?.biometricEnabled;
     }
+    this.notifications.register().catch((e) => console.error('[Push] register', e));
   }
 
   toggleBalance(): void {
@@ -108,6 +117,12 @@ export class HomePage implements OnInit {
 
   goHistory(): void {
     this.router.navigateByUrl('/history');
+  }
+
+  onQuickAction(key: string): void {
+    if (key === 'add') this.goAddCard();
+    else if (key === 'pay') this.goPay();
+    else if (key === 'history') this.goHistory();
   }
 
   async confirmDelete(card: Card): Promise<void> {

@@ -1,0 +1,38 @@
+.hero {
+  background: linear-gradient(135deg, var(--ion-color-primary), #4361ee);
+  color: #fff;
+  border-radius: 0 0 24px 24px;
+  padding-bottom: 28px;
+
+  .greeting {
+    margin: 0;
+    opacity: 0.85;
+  }
+
+  .name {
+    margin: 4px 0 16px;
+    font-weight: 700;
+  }
+
+  .balance-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.12);
+    padding: 14px 18px;
+    border-radius: 14px;
+
+    small {
+      opacity: 0.8;
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 4px 0 0;
+      font-size: 28px;
+      font-weight: 700;
+    }
+  }
+}

@@ -11,7 +11,12 @@ export const environment = {
     storageBucket: "mydigitalwallet-851cc.firebasestorage.app",
     messagingSenderId: "42918699567",
     appId: "1:42918699567:web:46070ce92894506abb5cda"
-  }
+  },
+  notificationsBackend: {
+    baseUrl: 'https://sendnotificationfirebase-production.up.railway.app',
+    email: 'felipe.barburramirez@unicolombo.edu.co',
+    password: 'Dev!123456',
+  },
 };
 
 /*
