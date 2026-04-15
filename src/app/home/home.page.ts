@@ -38,7 +38,7 @@ export class HomePage {
   }
 
   goPay(): void {
-    this.toast('Próximamente: pagos', 'medium');
+    this.router.navigateByUrl('/payment');
   }
 
   goHistory(): void {

@@ -26,6 +26,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/add-card/add-card.module').then((m) => m.AddCardPageModule),
   },
+  {
+    path: 'payment',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./pages/payment/payment.module').then((m) => m.PaymentPageModule),
+  },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 ];
 

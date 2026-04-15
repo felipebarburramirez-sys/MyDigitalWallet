@@ -1,0 +1,37 @@
+ion-content {
+  --background: var(--ion-color-light);
+}
+
+.preview {
+  margin-bottom: 24px;
+}
+
+.form-list {
+  background: transparent;
+  margin-bottom: 16px;
+
+  ion-item {
+    --background: #fff;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    --padding-start: 16px;
+  }
+}
+
+.pay-btn {
+  margin-top: 16px;
+  --border-radius: 14px;
+  height: 52px;
+  font-weight: 600;
+}
+
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--ion-color-medium);
+
+  ion-icon {
+    font-size: 64px;
+    margin-bottom: 12px;
+  }
+}

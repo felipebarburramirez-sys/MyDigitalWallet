@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Realizar pago</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ng-container *ngIf="cards$ | async as cards">
+    <div *ngIf="cards.length === 0" class="empty">
+      <ion-icon name="card-outline"></ion-icon>
+      <p>No tienes tarjetas registradas</p>
+      <ion-button routerLink="/add-card">Agregar tarjeta</ion-button>
+    </div>
+
+    <form *ngIf="cards.length > 0" [formGroup]="form" (ngSubmit)="submit()">
+      <div class="preview" *ngIf="selectedCard">
+        <app-card [card]="selectedCard" [showBalance]="true"></app-card>
+      </div>
+
+      <ion-list lines="none" class="form-list">
+        <ion-item>
+          <ion-select
+            label="Tarjeta"
+            labelPlacement="stacked"
+            placeholder="Selecciona una tarjeta"
+            formControlName="cardId">
+            <ion-select-option *ngFor="let c of cards" [value]="c.id">
+              {{ c.brand | uppercase }} •••• {{ c.last4 }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            label="Comercio"
+            labelPlacement="stacked"
+            placeholder="Ej: Amazon"
+            formControlName="merchant">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            type="number"
+            label="Monto (COP)"
+            labelPlacement="stacked"
+            placeholder="10000"
+            formControlName="amount">
+          </ion-input>
+        </ion-item>
+      </ion-list>
+
+      <ion-button expand="block" fill="outline" (click)="randomize()" type="button">
+        <ion-icon name="shuffle-outline" slot="start"></ion-icon>
+        Simular comercio
+      </ion-button>
+
+      <ion-button expand="block" type="submit" [disabled]="form.invalid" class="pay-btn">
+        <ion-icon name="card-outline" slot="start"></ion-icon>
+        Pagar
+      </ion-button>
+    </form>
+  </ng-container>
+</ion-content>
