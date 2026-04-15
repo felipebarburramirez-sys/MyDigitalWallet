@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Iniciar Sesión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <ion-list lines="full">
+      <ion-item>
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input type="email" formControlName="email" autocomplete="email"></ion-input>
+      </ion-item>
+      <ion-note color="danger" *ngIf="form.controls.email.touched && form.controls.email.invalid">
+        Email inválido
+      </ion-note>
+
+      <ion-item>
+        <ion-label position="stacked">Contraseña</ion-label>
+        <ion-input type="password" formControlName="password" autocomplete="current-password"></ion-input>
+      </ion-item>
+      <ion-note color="danger" *ngIf="form.controls.password.touched && form.controls.password.invalid">
+        Mínimo 6 caracteres
+      </ion-note>
+    </ion-list>
+
+    <ion-button expand="block" type="submit" [disabled]="loading" class="ion-margin-top">
+      <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+      <span *ngIf="!loading">Ingresar</span>
+    </ion-button>
+
+    <ion-button expand="block" fill="clear" type="button" (click)="goToRegister()">
+      Crear una cuenta
+    </ion-button>
+  </form>
+</ion-content>
