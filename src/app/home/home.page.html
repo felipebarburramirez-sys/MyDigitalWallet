@@ -1,20 +1,68 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>MyDigitalWallet</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div class="hero ion-padding">
+    <p class="greeting">Hola,</p>
+    <h2 class="name">{{ displayName$ | async }}</h2>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <div class="balance-box">
+      <div>
+        <small>Balance total</small>
+        <h1>
+          <ng-container *ngIf="showBalance; else hidden">
+            ${{ (totalBalance$ | async) | number:'1.0-0' }}
+          </ng-container>
+          <ng-template #hidden>••••••</ng-template>
+        </h1>
+      </div>
+      <ion-button fill="clear" color="light" (click)="toggleBalance()">
+        <ion-icon
+          slot="icon-only"
+          [name]="showBalance ? 'eye-off-outline' : 'eye-outline'">
+        </ion-icon>
+      </ion-button>
+    </div>
   </div>
+
+  <div class="quick-actions">
+    <button class="qa" (click)="goAddCard()">
+      <ion-icon name="add-circle-outline"></ion-icon>
+      <span>Agregar</span>
+    </button>
+    <button class="qa" (click)="goPay()">
+      <ion-icon name="card-outline"></ion-icon>
+      <span>Pagar</span>
+    </button>
+    <button class="qa" (click)="goHistory()">
+      <ion-icon name="time-outline"></ion-icon>
+      <span>Historial</span>
+    </button>
+  </div>
+
+  <div class="section-title ion-padding-horizontal">
+    <h3>Mis tarjetas</h3>
+  </div>
+
+  <ng-container *ngIf="cards$ | async as cards">
+    <div *ngIf="cards.length === 0" class="empty">
+      <ion-icon name="card-outline"></ion-icon>
+      <p>Aún no tienes tarjetas</p>
+      <ion-button (click)="goAddCard()">Agregar tarjeta</ion-button>
+    </div>
+
+    <div class="cards-list" *ngIf="cards.length > 0">
+      <div class="card-item" *ngFor="let c of cards; trackBy: trackById" (click)="confirmDelete(c)">
+        <app-card [card]="c" [showBalance]="showBalance"></app-card>
+      </div>
+    </div>
+  </ng-container>
 </ion-content>

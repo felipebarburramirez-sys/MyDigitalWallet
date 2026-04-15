@@ -1,0 +1,24 @@
+<div class="wallet-card" [class.brand-visa]="card.brand === 'visa'" [class.brand-mc]="card.brand === 'mastercard'">
+  <div class="row top">
+    <span class="chip"></span>
+    <span class="brand">{{ brandLabel }}</span>
+  </div>
+
+  <div class="number">•••• •••• •••• {{ card.last4 }}</div>
+
+  <div class="row bottom">
+    <div class="holder">
+      <small>TITULAR</small>
+      <span>{{ card.holder }}</span>
+    </div>
+    <div class="exp">
+      <small>VENCE</small>
+      <span>{{ expString }}</span>
+    </div>
+  </div>
+
+  <div class="balance" *ngIf="showBalance">
+    <small>Saldo disponible</small>
+    <strong>${{ card.balance | number:'1.0-0' }}</strong>
+  </div>
+</div>

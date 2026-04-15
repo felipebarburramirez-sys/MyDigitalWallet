@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Agregar Tarjeta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="preview">
+    <app-card [card]="previewCard" [showBalance]="false"></app-card>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <ion-list lines="full">
+      <ion-item>
+        <ion-label position="stacked">Titular</ion-label>
+        <ion-input formControlName="holder" autocapitalize="characters"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Número de tarjeta</ion-label>
+        <ion-input
+          type="tel"
+          inputmode="numeric"
+          formControlName="number"
+          (ionInput)="onNumberInput($event)"
+          maxlength="23"
+          placeholder="1234 5678 9012 3456">
+        </ion-input>
+      </ion-item>
+      <ion-note color="medium" *ngIf="brand !== 'unknown'">
+        Marca detectada: {{ brand | uppercase }}
+      </ion-note>
+
+      <ion-item>
+        <ion-label position="stacked">Expiración (MM/YY)</ion-label>
+        <ion-input
+          type="tel"
+          inputmode="numeric"
+          formControlName="expiration"
+          (ionInput)="onExpirationInput($event)"
+          maxlength="5"
+          placeholder="MM/YY">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">CVV</ion-label>
+        <ion-input type="tel" inputmode="numeric" formControlName="cvv" maxlength="4"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-button expand="block" type="submit" [disabled]="loading" class="ion-margin-top">
+      <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+      <span *ngIf="!loading">Guardar tarjeta</span>
+    </ion-button>
+  </form>
+</ion-content>

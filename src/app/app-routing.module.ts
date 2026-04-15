@@ -20,6 +20,12 @@ const routes: Routes = [
     canActivate: [authGuard],
     loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
   },
+  {
+    path: 'add-card',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./pages/add-card/add-card.module').then((m) => m.AddCardPageModule),
+  },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 ];
 
