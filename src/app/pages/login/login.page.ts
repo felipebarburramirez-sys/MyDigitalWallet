@@ -32,6 +32,19 @@ export class LoginPage implements OnInit {
     this.biometricReady = !!creds;
   }
 
+  async loginWithGoogle(): Promise<void> {
+    if (this.loading) return;
+    this.loading = true;
+    try {
+      await this.auth.loginWithGoogle();
+      await this.router.navigateByUrl('/home', { replaceUrl: true });
+    } catch (e: unknown) {
+      await this.showError('No se pudo iniciar sesión con Google');
+    } finally {
+      this.loading = false;
+    }
+  }
+
   async loginWithBiometric(): Promise<void> {
     if (this.loading) return;
     this.loading = true;

@@ -30,6 +30,18 @@
     </ion-button>
 
     <ion-button
+      expand="block"
+      fill="outline"
+      type="button"
+      color="danger"
+      (click)="loginWithGoogle()"
+      [disabled]="loading"
+      class="ion-margin-top">
+      <ion-icon name="logo-google" slot="start"></ion-icon>
+      Continuar con Google
+    </ion-button>
+
+    <ion-button
       *ngIf="biometricReady"
       expand="block"
       fill="outline"
